@@ -38,6 +38,6 @@ jobs:
             RESULT_IMAGE_TAG: result-dev-${{github.run_number}}
             WORKER_IMAGE_TAG: worker-dev-${{github.run_number}}
           run: |
-            docker build -t vote-image ./vote
-            docker tag worker-image $ECR_REGISTRY/$ECR_REPO:$VOTE_IMAGE_TAG
+            docker build -t lks-voting-image ./vote
+            docker tag lks-voting-image $ECR_REGISTRY/$ECR_REPO:$VOTE_IMAGE_TAG
             docker push $ECR_REGISTRY/$ECR_REPO:$VOTE_IMAGE_TAG
