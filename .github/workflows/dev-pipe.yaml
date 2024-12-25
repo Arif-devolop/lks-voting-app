@@ -15,7 +15,7 @@ jobs:
 
       -  name: Update Docker Version On Runners
          run: |
-          sudo yum install docker-ce -y
+          sudo apt install docker-ce -y
           docker --version
 
       -  name: Configure AWS Credentials
