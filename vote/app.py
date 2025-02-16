@@ -19,7 +19,6 @@ app.logger.setLevel(logging.INFO)
 def get_redis():
     if not hasattr(g, 'lks-redis-001.lks-redis.uvswuu.use1.cache.amazonaws.com'):
         g.redis = Redis(host="lks-redis-001.lks-redis.uvswuu.use1.cache.amazonaws.com", db=0, socket_timeout=5, port="6379")
-        print("hai bro")
     return g.redis
 
 @app.route("/", methods=['POST','GET'])
@@ -32,6 +31,7 @@ def hello():
 
     if request.method == 'POST':
         redis = get_redis()
+        print(redis + "hai bro im here :]")
         vote = request.form['vote']
         app.logger.info('Received vote for %s', vote)
         data = json.dumps({'voter_id': voter_id, 'vote': vote})
