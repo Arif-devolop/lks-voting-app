@@ -16,8 +16,8 @@ namespace Worker
         {
             try
             {
-                var pgsql = OpenDbConnection("Host=lks-rds.cvpqb1am6el6.us-east-1.rds.amazonaws.com;Username=admins;Password=LKSNCC2024;Database=postgres;");
-                var redisConn = OpenRedisConnection("master.lks-redis.uvswuu.use1.cache.amazonaws.com:6379");
+                var pgsql = OpenDbConnection("Host=lks-rds.cvpqb1am6el6.us-east-1.rds.amazonaws.com;Port=5432;Database=postgres;Username=admins;Password=LKSNCC2024;");
+                var redisConn = OpenRedisConnection("lks-redis-001.lks-redis.uvswuu.use1.cache.amazonaws.com");
                 var redis = redisConn.GetDatabase();
 
                 // Keep alive is not implemented in Npgsql yet. This workaround was recommended:
@@ -34,7 +34,7 @@ namespace Worker
                     // Reconnect redis if down
                     if (redisConn == null || !redisConn.IsConnected) {
                         Console.WriteLine("Reconnecting Redis");
-                        redisConn = OpenRedisConnection("master.lks-redis.uvswuu.use1.cache.amazonaws.com:6379");
+                        redisConn = OpenRedisConnection("lks-redis-001.lks-redis.uvswuu.use1.cache.amazonaws.com");
                         redis = redisConn.GetDatabase();
                     }
                     string json = redis.ListLeftPopAsync("votes").Result;
@@ -46,7 +46,7 @@ namespace Worker
                         if (!pgsql.State.Equals(System.Data.ConnectionState.Open))
                         {
                             Console.WriteLine("Reconnecting DB");
-                            pgsql = OpenDbConnection("Host=lks-rds.cvpqb1am6el6.us-east-1.rds.amazonaws.com;Username=admins;Password=LKSNCC2024;Database=postgres;");
+                            pgsql = OpenDbConnection("Host=lks-rds.cvpqb1am6el6.us-east-1.rds.amazonaws.com;Port=5432;Database=postgres;Username=admins;Password=LKSNCC2024;");
                         }
                         else
                         { // Normal +1 vote requested
